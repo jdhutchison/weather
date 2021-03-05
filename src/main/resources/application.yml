@@ -1,0 +1,14 @@
+weather:
+  observations:
+    fetch-rate: 10m
+    keep-for: PT24H
+  forecasts:
+    fetch-rate: 2h
+
+
+
+micronaut:
+  server:
+    port: 8086
+
+

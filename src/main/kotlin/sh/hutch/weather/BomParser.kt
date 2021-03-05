@@ -16,7 +16,7 @@ object BomParser {
 	 * @param html the html from a BoM forcast page. 
 	 */
 	fun parseForcasts(html: String): List<Forecast> {
-		val forecasts = MutableList<Forecast>()
+		val forecasts = mutableListOf<Forecast>()
 		val document = Jsoup.parse(html)
 		
 		// Extract the forecast timestamp
@@ -25,16 +25,16 @@ object BomParser {
 		
 		// Future days
 		val futureForecasts = document.select("div.day.main")
-		forecasts.addAll(futureForecasts.map { parseOneForecast(it) })
+		//forecasts.addAll(futureForecasts.map { parseOneForecast(it) })
 		return forecasts
 	}
 	
 	/**
 	 * Parses the forecast for one day from a DOM element.
-	 */
+	 *
 	internal fun parseOneForecast(node: Element): Forecast {
 		return Forecast()
-	}
+	}*/
 	
 	/**
 	 * Parses the forecast for the current day from a DOM element.

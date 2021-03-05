@@ -42,6 +42,7 @@ dependencies {
     
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testImplementation("org.hamcrest:hamcrest:2.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
 }
 
@@ -53,7 +54,7 @@ tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
 }
 
-nativeImage {
+/*nativeImage {
     graalVmHome = System.getenv("JAVA_HOME")
     mainClass ="sh.hutch.weather.Application"
     executableName = "weather"
@@ -65,7 +66,7 @@ nativeImage {
         "--initialize-at-run-time=com.example.runtime",
         "--report-unsupported-elements-at-runtime"
     )
-}
+}*/
 
 generateNativeImageConfig {
     enabled = true

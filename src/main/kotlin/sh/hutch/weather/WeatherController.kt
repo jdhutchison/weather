@@ -9,10 +9,11 @@ import io.micronaut.http.annotation.QueryValue
 class WeatherController(val dataStore: WeatherDataStore) {
 	
 	@Get("/", produces = [MediaType.APPLICATION_JSON])
-	fun getCurrent() = dataStore.currentWeather
+	fun getCurrent() = dataStore.getDataForNow()
 	
 	@Get("/", produces = [MediaType.APPLICATION_JSON])
 	fun getToday() = "Today"
-	
-	fun getForcast(@QueryValue(defaultValue = "7") days: Int) = "Forecast"
+
+	@Get("/forecast")
+	fun getForcast(@QueryValue(defaultValue = "7") days: Int) = dataStore.getDaysOfForecast(days)
 }
