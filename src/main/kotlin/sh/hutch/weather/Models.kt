@@ -12,8 +12,8 @@ data class Wind(val speed: Double, val direction: String, val gustSpeed: Double)
 data class Observation(val temp: Double, val apparentTemp: Double, val humidity: Int, val pressure: Double,
                        val rainfall: Double, val wind: Wind?, val timestamp: Instant)
 
-data class Forecast(val day: String, val date: LocalDate, val min: Double, val max: Double,
-                    val summary: String, val forecast: String, val rainfallLow: Int?, val rainfallHigh: Int?,
+data class Forecast(val day: String, val date: LocalDate, val min: Int, val max: Int,
+                    val summary: String, val forecast: String, val rainfallLow: Double?, val rainfallHigh: Double?,
                     val rainfallProbability: Int?, val timestamp: Instant)
 
 /** Aggregates current data about today, with the forecast. */
@@ -21,7 +21,7 @@ data class Today(val currently: Observation, val forecast: Forecast)
 
 data class BomObservationResponse(val observations: BomObservationMeta)
 
-data class BomObservationMeta(val data: Array<BomObservation>)
+data class BomObservationMeta(val data: List<BomObservation>)
 
 data class BomObservation(
   val sort_order: Int,

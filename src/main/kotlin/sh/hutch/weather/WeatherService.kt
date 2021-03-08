@@ -6,10 +6,9 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.scheduling.annotation.Scheduled
 import java.time.Duration
 import java.time.Instant
-import java.util.*
+import java.util.Arrays
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.streams.toList
 
 @Singleton
 class WeatherService(val dataStore: WeatherDataStore) {
@@ -33,11 +32,11 @@ class WeatherService(val dataStore: WeatherDataStore) {
         }
         val response = httpClient.toBlocking().exchange(
             HttpRequest.GET<BomObservationResponse>("/fwo/IDV60901/IDV60901.95936.json"), BomObservationResponse::class.java)
-        val bomResponse = response.body()
+        val bomResponse = response.body()!!
 
-        val observations = Arrays.stream(bomResponse?.observations?.data).filter {
+        val observations = bomResponse.observations.data.filter {
             parseBoMUtcTimestamp(it.aifstime_utc).isAfter(mostRecentObservation)
-        }.map { it.toObservation() }.toList()
+        }.map { it.toObservation() }
         dataStore.addObservations(observations)
     }
 }
