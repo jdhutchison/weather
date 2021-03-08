@@ -2,17 +2,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
-var kotlinVersion: String = "1.4.21"
+var kotlinVersion = "1.4.31"
 var micronautVersion = "2.3.2"
 
 plugins {
-    kotlin("jvm") version "1.4.21"
-    kotlin("kapt") version "1.4.21"
-//    kotlin("allopen") version "1.4.10"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.10"
+    kotlin("jvm") version "1.4.31"
+    kotlin("kapt") version "1.4.31"
+    //kotlin("allopen") version "1.4.31"
+    //id("org.jetbrains.kotlin.plugin.allopen") version "1.4.10"
     //id("com.github.johnrengelman.shadow") version "5.0.0"
     id("application")
     id("org.mikeneck.graalvm-native-image") version "1.2.0"
+    "java"
 }
 
 group = "sh.hutch"
@@ -25,25 +26,28 @@ repositories {
 
 dependencies {
     implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut:micronaut-http-server-netty")
-    implementation("io.micronaut:micronaut-http-client")
+    implementation("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+    implementation("io.micronaut:micronaut-runtime:$micronautVersion")
+    implementation("io.micronaut:micronaut-http-server-netty:$micronautVersion")
+    implementation("io.micronaut:micronaut-http-client:$micronautVersion")
     implementation("org.jsoup:jsoup:1.13.1")
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    kapt("io.micronaut:micronaut-inject-java")
-    kapt("io.micronaut:micronaut-validation")
-    kapt("io.micronaut.configuration:micronaut-openapi")
+    kapt("io.micronaut:micronaut-inject-java:$micronautVersion")
+    kapt("io.micronaut:micronaut-validation:$micronautVersion")
+    kapt("io.micronaut.configuration:micronaut-openapi:1.5.3")
     kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    kaptTest("io.micronaut:micronaut-inject-java")
+    kaptTest("io.micronaut:micronaut-inject-java:$micronautVersion")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("ch.qos.logback:logback-classic")
     
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("io.micronaut.test:micronaut-test-junit5:$micronautVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+    testAnnotationProcessor("io.micronaut:micronaut-inject-java")
 }
 
 tasks.test {
@@ -53,6 +57,12 @@ tasks.test {
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 
 /*nativeImage {
     graalVmHome = System.getenv("JAVA_HOME")
