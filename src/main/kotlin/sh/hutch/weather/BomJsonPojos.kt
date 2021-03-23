@@ -1,50 +1,48 @@
 package sh.hutch.weather
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
 /**
  * These data classes are POJOs to unmarshall JSON data from BoM into for easier use.
  */
 
-data class BomObservationResponse(val observations: BomObservationMeta)
+@JsonIgnoreProperties(ignoreUnknown = true)
+class BomObservationResponse {
+    lateinit var observations: BomObservationMeta
+}
 
-data class BomObservationMeta(val data: List<BomObservation>)
+@JsonIgnoreProperties(ignoreUnknown = true)
+class BomObservationMeta {
+    lateinit var data: List<BomObservation>
+}
 
-data class BomObservation(
-    val sort_order: Int,
-    val wmo: Int,
-    val name: String,
-    val history_product: String,
-    val local_date_time: String,
-    val local_date_time_full: String,
-    val aifstime_utc: String,
-    val lat: Double,
-    val lon: Double,
-    val apparent_t: Double,
-    val cloud: String,
-    val cloud_base_m: String?,
-    val cloud_oktas: String?,
-    val cloud_type_id: String?,
-    val cloud_type: String,
-    val delta_t: Double,
-    val gust_kmh: Double,
-    val gust_kt: Double,
-    val air_temp: Double,
-    val dewpt: Double,
-    val press: Double,
-    val press_qnh: Double,
-    val press_msl: Double,
-    val press_tend: String,
-    val rain_trace: String,
-    val rel_hum: Double,
-    val sea_state: String,
-    val swell_dir_worded: String,
-    val swell_height: Any?,
-    val swell_period: Any?,
-    val vis_km: String,
-    val weather: String,
-    val wind_dir: String,
-    val wind_spd_kmh: Double,
-    val wind_spd_kt: Double
-) {
+@JsonIgnoreProperties(ignoreUnknown = true)
+class BomObservation {
+    var sort_order: Int = 0
+    var wmo: Int = 0
+    lateinit var name: String
+    lateinit var history_product: String
+    lateinit var local_date_time: String
+    lateinit var local_date_time_full: String
+    lateinit var aifstime_utc: String
+    var lat: Double = 0.0
+    var lon: Double = 0.0
+    var apparent_t: Double = 0.0
+    var delta_t: Double = 0.0
+    var gust_kmh: Double = 0.0
+    var gust_kt: Double = 0.0
+    var air_temp: Double = 0.0
+    var dewpt: Double = 0.0
+    var press: Double = 0.0
+    var press_qnh: Double = 0.0
+    var press_msl: Double = 0.0
+    lateinit var press_tend: String
+    lateinit var rain_trace: String
+    var rel_hum: Double = 0.0
+    lateinit var vis_km: String
+    lateinit var weather: String
+    lateinit var wind_dir: String
+    var wind_spd_kmh: Double = 0.0
 
     /** Converts BoM observation object into project one */
     fun toObservation() = Observation(air_temp, apparent_t, rel_hum.toInt(), press_msl, rain_trace.toDouble(),

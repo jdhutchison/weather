@@ -2,13 +2,28 @@ weather:
   observations:
     fetch-rate: 10m
     keep-for: PT24H
+    referrer: http://www.bom.gov.au/products/IDV60901/IDV60901.95936.shtml
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36
   forecasts:
     fetch-rate: 2h
 
 
-
 micronaut:
+  application:
+    name: weather
   server:
     port: 8086
+  http:
+    client:
+      read-timeout: 10s
+      connection-timeout: 15s
+  router:
+    static-resources:
+      default:
+        paths: "classpath:web"
+        mapping: /static/*
+        enabled: true
+
+
 
 
